@@ -7,5 +7,6 @@ c=conn.cursor()
 #conn.commit()
 df.to_sql('flask1',conn,if_exists='replace',index=False)
 c.execute("delete from flask1")
+c.execute("select * from flask1")
 for row in c.fetchall():
     print(row)
