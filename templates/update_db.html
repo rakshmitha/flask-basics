@@ -21,9 +21,21 @@
 		<div class="container">
 			<div>
 				<h1>Update your Details</h1>
-				<form method="POST" action="/api/db/vanilla/update/{{id}}">
-					Name: <input class="form-control" type="text" name="name" /> Dept :
-					<input class="form-control" type="text" name="dept" />
+				<form method="POST" action="/api/db/vanilla/update/{{id}}/''/''">
+					Name:
+					<input
+						class="form-control"
+						type="text"
+						name="name"
+						value="{{name}}"
+					/>
+					Dept :
+					<input
+						class="form-control"
+						type="text"
+						name="dept"
+						value="{{dept}}"
+					/>
 					<br />
 					<input class="btn btn-primary" type="submit" />
 				</form>

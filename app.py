@@ -7,7 +7,7 @@ Created on
 
 Course work: 
 
-@author: Gokul and Team
+@author: FLASK-INTERN-TEAM
 
 Source:
     https://stackoverflow.com/questions/13279399/how-to-obtain-values-of-request-variables-using-python-and-flask
@@ -31,14 +31,14 @@ def get_last_record(conn):
     sql = '''SELECT * FROM flask1 ORDER BY id DESC LIMIT 1'''
     cur = conn.cursor()
     cur.execute(sql)
-    rows = cur.fetchall()
+    row = cur.fetchall()
 
-    if(len(rows) <= 0):
+    if(len(row) <= 0):
         print('No Data available')
         return 1
     
-    current_id = row[0]
-    return current_id
+    current_id = row[0][0]
+    return current_id+1
 
 def select_all(conn):
     """
@@ -296,8 +296,8 @@ def show_pdf():
 '''
     http://127.0.0.1:5000/api/db/vanilla/update
 '''
-@app.route('/api/db/vanilla/update/<id>',methods = ['GET','POST'])
-def api_db_vanilla_update(id):
+@app.route('/api/db/vanilla/update/<id>/<name>/<dept>',methods = ['GET','POST'])
+def api_db_vanilla_update(id,name,dept):
     id = int(id)
     if request.method == "POST":
         name = request.form['name']
@@ -315,7 +315,7 @@ def api_db_vanilla_update(id):
         }
         return render_template("insert_into_db.html", result=result)
 
-    return render_template("update_db.html",id=id)
+    return render_template("update_db.html",id=id,name=name,dept=dept)
 
 
 '''
@@ -324,11 +324,14 @@ def api_db_vanilla_update(id):
 @app.route('/api/db/vanilla/insert',methods = ['GET', 'POST'])
 def api_db_vanilla_insert():
     if request.method == 'POST':
-        id = request.form['id']
+        #id = request.form['id']
+        
         name = request.form['name']
         dept = request.form['dept']
         item_list = None
         with sqlite3.connect("test.db") as conn:
+            id = get_last_record(conn)
+            print("LAST RECORD ID ::: ",id)
             insert_obj = {
                 "id": id,
                 "name": name,

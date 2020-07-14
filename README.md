@@ -33,9 +33,10 @@ Flask Learning Roadmap: (Completed)
 3. update route - done
 4. delete route - done
 
-### improvements
+### improvements - completed !!
 
-1. Auto id - pending
+1. Auto id - done
+2. update route ( form - previous value passing ) - done
 
 Trello Link:
 https://trello.com/c/Cmv46VpP/2-flask-basics-learning

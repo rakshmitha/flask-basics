@@ -22,9 +22,10 @@
 			<div>
 				<h1>Enter data to be inserted</h1>
 				<form method="POST" action="/api/db/vanilla/insert">
-					Id : <input class="form-control" type="number" name="id" /> Name :
-					<input class="form-control" type="text" name="name" /> Department :
-					<input class="form-control" type="text" name="dept" />
+					<!--Id : <input class="form-control" type="number" name="id" /> -->
+					Name : <input class="form-control" type="text" name="name" />
+					<br />
+					Department : <input class="form-control" type="text" name="dept" />
 					<br />
 					<input class="btn btn-primary" type="submit" />
 				</form>
@@ -51,7 +52,8 @@
 					<td>{{data.name}}</td>
 					<td>{{data.dept}}</td>
 					<td>
-						<a href="http://127.0.0.1:5000/api/db/vanilla/update/{{data.id}}"
+						<a
+							href="http://127.0.0.1:5000/api/db/vanilla/update/{{data.id}}/{{data.name}}/{{data.dept}}"
 							>Update</a
 						>
 						<span style="margin-left: 10px;"
