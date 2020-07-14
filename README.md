@@ -13,8 +13,8 @@
 
 #### To DO:
 Flask Learning Roadmap:
-1. Templates - single page
-2. Get Request params
+1. Templates - single page - Done
+2. Get Request params - Done
 3. Get Path variables
 4. Show PDF in Flask
 5. Upload files in Flask

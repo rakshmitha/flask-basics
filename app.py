@@ -8,8 +8,12 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    
+    name = None
+
     if request.method == 'POST':
-        name = request.form['name']
+        name = request.values.get("name")
+
     return name
 
 if __name__ == "__main__":
