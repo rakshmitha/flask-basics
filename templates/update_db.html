@@ -14,22 +14,19 @@
 			rel="stylesheet"
 			href="{{ url_for('static', filename='main.css') }}"
 		/>
-		<title>upload & display image</title>
+		<title>Update Details</title>
 	</head>
 
 	<body>
 		<div class="container">
 			<div>
-				<h1>Upload PDF</h1>
-				<form method="POST" action="/show_pdf" enctype="multipart/form-data">
-					<input class="form-control" type="file" name="pdf" />
+				<h1>Update your Details</h1>
+				<form method="POST" action="/api/db/vanilla/update/{{id}}">
+					Name: <input class="form-control" type="text" name="name" /> Dept :
+					<input class="form-control" type="text" name="dept" />
 					<br />
 					<input class="btn btn-primary" type="submit" />
 				</form>
-				{% if pdf_path %}
-				<h1>PDF</h1>
-				<embed src="{{pdf_path}}" width="80%" height="375" />
-				{% endif %} {% if error_msg %} {{error_msg}} {% endif %}
 			</div>
 		</div>
 

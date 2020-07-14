@@ -14,24 +14,32 @@
 			rel="stylesheet"
 			href="{{ url_for('static', filename='main.css') }}"
 		/>
-		<title>upload & display image</title>
+		<title>Displaying db table</title>
 	</head>
 
-	<body>
-		<div class="container">
-			<div>
-				<h1>Upload PDF</h1>
-				<form method="POST" action="/show_pdf" enctype="multipart/form-data">
-					<input class="form-control" type="file" name="pdf" />
-					<br />
-					<input class="btn btn-primary" type="submit" />
-				</form>
-				{% if pdf_path %}
-				<h1>PDF</h1>
-				<embed src="{{pdf_path}}" width="80%" height="375" />
-				{% endif %} {% if error_msg %} {{error_msg}} {% endif %}
-			</div>
-		</div>
+	<body style="margin-top: 60px;">
+		<h1 style="text-align: center; margin-bottom: 50px;">Test DB</h1>
+		<table
+			class="table table-striped"
+			style="width: 60%; margin-left: auto; margin-right: auto;"
+		>
+			<thead style="background-color: black; color: white;">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NAME</th>
+					<th scope="col">DEPARTMENT</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in result.users %}
+				<tr>
+					<th scope="row">{{data.id}}</th>
+					<td>{{data.name}}</td>
+					<td>{{data.dept}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 		<script
 			src="https://code.jquery.com/jquery-1.12.4.min.js"

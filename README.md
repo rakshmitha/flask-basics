@@ -26,5 +26,16 @@ Flask Learning Roadmap: (Completed)
 12. Do a vanilla UPDATE in DB - Done
 13. Do a vanilla DELETE in DB - Done
 
+### New task - adding front-end for db routes -- ( completed !! )
+
+1. select route - done
+2. insert route - done
+3. update route - done
+4. delete route - done
+
+### improvements
+
+1. Auto id - pending
+
 Trello Link:
 https://trello.com/c/Cmv46VpP/2-flask-basics-learning

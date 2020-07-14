@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='main.css') }}"
+		/>
+		<title>Inserting to DB</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<div>
+				<h1>Enter data to be inserted</h1>
+				<form method="POST" action="/api/db/vanilla/insert">
+					Id : <input class="form-control" type="number" name="id" /> Name :
+					<input class="form-control" type="text" name="name" /> Department :
+					<input class="form-control" type="text" name="dept" />
+					<br />
+					<input class="btn btn-primary" type="submit" />
+				</form>
+			</div>
+		</div>
+		<br />
+		<h1 style="text-align: center; margin-bottom: 50px;">Test DB</h1>
+		<table
+			class="table table-striped"
+			style="width: 60%; margin-left: auto; margin-right: auto;"
+		>
+			<thead style="background-color: black; color: white;">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">NAME</th>
+					<th scope="col">DEPARTMENT</th>
+					<th scope="col">OPERATIONS</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in result.users %}
+				<tr>
+					<th scope="row">{{data.id}}</th>
+					<td>{{data.name}}</td>
+					<td>{{data.dept}}</td>
+					<td>
+						<a href="http://127.0.0.1:5000/api/db/vanilla/update/{{data.id}}"
+							>Update</a
+						>
+						<span style="margin-left: 10px;"
+							><a href="http://127.0.0.1:5000/api/db/vanilla/delete/{{data.id}}"
+								>Delete</a
+							></span
+						>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<script
+			src="https://code.jquery.com/jquery-1.12.4.min.js"
+			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

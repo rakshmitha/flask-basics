@@ -27,6 +27,19 @@ app = Flask(__name__)
 
 database = 'test.db'
 
+def get_last_record(conn):
+    sql = '''SELECT * FROM flask1 ORDER BY id DESC LIMIT 1'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+
+    if(len(rows) <= 0):
+        print('No Data available')
+        return 1
+    
+    current_id = row[0]
+    return current_id
+
 def select_all(conn):
     """
     Query all rows in the flask1 table
@@ -62,14 +75,16 @@ def select_all(conn):
     return item_list
 
 
-def update_db(conn):
+def update_db(conn,update_obj):
     """
     Query all rows in the flask1 table
     :param conn: the Connection object
     :return:
     """
+    sql = ''' UPDATE flask1 SET name = :name, dept = :dept where id = :id'''
     cur = conn.cursor()
-    cur.execute("UPDATE flask1 SET id='106' where name ='test'")
+    cur.execute(sql,update_obj)
+    conn.commit()
     cur.execute("SELECT * FROM flask1")
  
     rows = cur.fetchall()
@@ -104,6 +119,7 @@ def insert_into_db(conn,insert_obj):
 
     cur = conn.cursor()
     cur.execute(sql, insert_obj)
+    conn.commit()
     cur.execute("SELECT * FROM flask1")
  
     rows = cur.fetchall()
@@ -137,6 +153,7 @@ def delete_from_db(conn,delete_obj):
 
     cur = conn.cursor()
     cur.execute(sql, delete_obj)
+    conn.commit()
     cur.execute("SELECT * FROM flask1")
  
     rows = cur.fetchall()
@@ -236,7 +253,7 @@ def api_db_vanilla_select():
         'users' : item_list
     }
 
-    return result
+    return render_template("show_db_table.html", result=result)
 
 '''
     http://127.0.0.1:5000/show_image
@@ -279,51 +296,71 @@ def show_pdf():
 '''
     http://127.0.0.1:5000/api/db/vanilla/update
 '''
-@app.route('/api/db/vanilla/update')
-def api_db_vanilla_update():
-
-    item_list = None
-    with sqlite3.connect("test.db") as conn:
-        item_list = update_db(conn)
-
-    result = {
+@app.route('/api/db/vanilla/update/<id>',methods = ['GET','POST'])
+def api_db_vanilla_update(id):
+    id = int(id)
+    if request.method == "POST":
+        name = request.form['name']
+        dept = request.form['dept']
+        item_list = None
+        with sqlite3.connect("test.db") as conn:
+            update_obj = {
+                "id": id,
+                "name": name,
+                "dept": dept
+            }
+        item_list = update_db(conn,update_obj)
+        result = {
         'users' : item_list
-    }
+        }
+        return render_template("insert_into_db.html", result=result)
 
-    return result
+    return render_template("update_db.html",id=id)
 
 
 '''
     http://127.0.0.1:5000/api/db/vanilla/insert
 '''
-@app.route('/api/db/vanilla/insert')
+@app.route('/api/db/vanilla/insert',methods = ['GET', 'POST'])
 def api_db_vanilla_insert():
+    if request.method == 'POST':
+        id = request.form['id']
+        name = request.form['name']
+        dept = request.form['dept']
+        item_list = None
+        with sqlite3.connect("test.db") as conn:
+            insert_obj = {
+                "id": id,
+                "name": name,
+                "dept": dept
+            }
+        item_list = insert_into_db(conn,insert_obj)
+        result = {
+        'users' : item_list
+        }
 
+        return render_template("insert_into_db.html", result=result)
+    
     item_list = None
     with sqlite3.connect("test.db") as conn:
-        insert_obj = {
-            "id": 105,
-            "name": "test",
-            "dept": "test-dept"
-        }
-        item_list = insert_into_db(conn,insert_obj)
+        item_list = select_all(conn)
 
     result = {
         'users' : item_list
     }
-
-    return result
+    
+    return render_template("insert_into_db.html", result=result)
 
 '''
-    http://127.0.0.1:5000/api/db/vanilla/delete
+    http://127.0.0.1:5000/api/db/vanilla/delete/107
 '''
-@app.route('/api/db/vanilla/delete')
-def api_db_vanilla_delete():
+@app.route('/api/db/vanilla/delete/<id>')
+def api_db_vanilla_delete(id):
 
     item_list = None
     with sqlite3.connect("test.db") as conn:
         delete_obj = {
-            "id": 106,
+            "id": id,
         }
         item_list = delete_from_db(conn,delete_obj)
 
@@ -331,7 +368,7 @@ def api_db_vanilla_delete():
         'users' : item_list
     }
 
-    return result
+    return render_template("insert_into_db.html",result=result)
 
 '''
     http://127.0.0.1:5000/pub_api_request
