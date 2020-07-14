@@ -38,8 +38,23 @@ def select_all(conn):
     if(len(rows) <= 0):
         print('No Data available')
  
+    item_list = []
     for row in rows:
         print(row) 
+
+        current_id = row[0]
+        current_name = row[1]
+        current_dept = row[2]
+
+        current_dict = {
+            'id' : current_id,
+            'name' : current_name,
+            'dept' : current_dept
+        }
+
+        item_list.append(current_dict)
+
+    return item_list
 
 @app.route('/')
 def index():
@@ -103,11 +118,12 @@ def api_get_path_variable(city, state):
 @app.route('/api/db/vanilla/select')
 def api_db_vanilla_select():
 
+    item_list = None
     with sqlite3.connect("db/test.db") as conn:
-      select_all(conn)
+        item_list = select_all(conn)
 
     result = {
-        'name' : 'test'
+        'users' : item_list
     }
 
     return result
