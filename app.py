@@ -12,7 +12,5 @@ def login():
         name = request.form['name']
     return name
 
-
-
 if __name__ == "__main__":
     app.run(debug=True)
