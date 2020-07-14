@@ -16,6 +16,9 @@ Source:
 from flask import Flask, render_template, request, make_response
 import sqlite3
 from sqlite3 import Error
+import requests
+import json
+
 from werkzeug.utils import secure_filename
 import os
 
@@ -329,5 +332,20 @@ def api_db_vanilla_delete():
     }
 
     return result
+
+'''
+    http://127.0.0.1:5000/pub_api_request
+'''
+    
+@app.route('/pub_api_request')
+def pub_api_req():
+    req = requests.get('https://reqres.in/api/users/2')
+    result = json.loads(req.content)
+    data = result.get('data')
+    print(data)
+    return render_template("api_data.html", data=data)
+  
 if __name__ == "__main__":
     app.run(debug=True)
+
+

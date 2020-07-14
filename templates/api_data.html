@@ -17,18 +17,12 @@
 		<title>Free Flask Tutorial - Heroku Example</title>
 	</head>
 
-	<body>
-		<div class="container">
-			<div>
-				<h1>Login</h1>
-				<form method="POST" action="/login">
-					Name <input class="form-control" type="text" name="name" />
-					<br />
-					<input class="btn btn-primary" type="submit" />
-				</form>
-			</div>
-		</div>
-
+	<body style="margin-left: 50px;">
+		<h1>Id:{{data.id}}</h1>
+		<h1>First Name:{{data.first_name}}</h1>
+		<h1>Last Name:{{data.last_name}}</h1>
+		<h1>Email:{{data.email}}</h1>
+		<img src="{{data.avatar}}" alt="avatar.jpg" />
 		<script
 			src="https://code.jquery.com/jquery-1.12.4.min.js"
 			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
