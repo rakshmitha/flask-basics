@@ -25,7 +25,6 @@ Flask Learning Roadmap: (Completed)
 11. Do a vanilla INSERT in DB - Done
 12. Do a vanilla UPDATE in DB - Done
 13. Do a vanilla DELETE in DB - Done
-14. sammple
 
 Trello Link:
 https://trello.com/c/Cmv46VpP/2-flask-basics-learning
