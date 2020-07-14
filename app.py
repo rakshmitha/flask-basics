@@ -16,5 +16,33 @@ def login():
 
     return name
 
+'''
+    http://127.0.0.1:5000/api/base
+'''
+@app.route('/api/base')
+def api_base():
+    
+    result = {
+        'food' : 'Poori',
+        'name' : 'Rakshmitha'
+    }
+
+    return result
+
+'''
+    http://127.0.0.1:5000/api/path/test/chennai/tamilnadu
+'''
+@app.route('/api/path/test/<city>/<state>')
+def api_get_path_variable(city, state):
+    
+    result = {
+        'food' : 'Poori',
+        'name' : 'Rakshmitha',
+        'city' : city,
+        'state' : state
+    }
+
+    return result
+
 if __name__ == "__main__":
     app.run(debug=True)

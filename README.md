@@ -15,7 +15,7 @@
 Flask Learning Roadmap:
 1. Templates - single page - Done
 2. Get Request params - Done
-3. Get Path variables
+3. Get Path variables - Done
 4. Show PDF in Flask
 5. Upload files in Flask
 6. Form submission in Flask
