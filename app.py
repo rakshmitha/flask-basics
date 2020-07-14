@@ -1,6 +1,45 @@
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+'''
+Created on 
+
+Course work: 
+
+@author: Gokul and Team
+
+Source:
+    https://stackoverflow.com/questions/13279399/how-to-obtain-values-of-request-variables-using-python-and-flask
+'''
+
 from flask import Flask, render_template, request
+import sqlite3
+from sqlite3 import Error
 
 app = Flask(__name__)
+
+
+database = 'db/test.db'
+
+def select_all(conn):
+    """
+    Query all rows in the flask1 table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM flask1")
+ 
+    rows = cur.fetchall()
+    
+    print('rows count : '+str(len(rows)))
+    
+    if(len(rows) <= 0):
+        print('No Data available')
+ 
+    for row in rows:
+        print(row) 
 
 @app.route('/')
 def index():
@@ -30,6 +69,20 @@ def api_base():
     return result
 
 '''
+    http://127.0.0.1:5000/api/student?name=gokul
+'''
+@app.route('/api/student')
+def api_get_param():
+
+    name = request.values.get("name")
+    
+    result = {
+        'name' : name
+    }
+
+    return result
+
+'''
     http://127.0.0.1:5000/api/path/test/chennai/tamilnadu
 '''
 @app.route('/api/path/test/<city>/<state>')
@@ -40,6 +93,21 @@ def api_get_path_variable(city, state):
         'name' : 'Rakshmitha',
         'city' : city,
         'state' : state
+    }
+
+    return result
+
+'''
+    http://127.0.0.1:5000/api/db/vanilla/select
+'''
+@app.route('/api/db/vanilla/select')
+def api_db_vanilla_select():
+
+    with sqlite3.connect("db/test.db") as conn:
+      select_all(conn)
+
+    result = {
+        'name' : 'test'
     }
 
     return result
