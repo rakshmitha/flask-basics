@@ -13,12 +13,14 @@ Source:
     https://stackoverflow.com/questions/13279399/how-to-obtain-values-of-request-variables-using-python-and-flask
 '''
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import sqlite3
 from sqlite3 import Error
 import requests
 import json
 
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 
@@ -236,6 +238,44 @@ def api_db_vanilla_select():
 
     return result
 
+'''
+    http://127.0.0.1:5000/show_image
+'''
+@app.route('/show_image',methods = ['GET', 'POST'])
+def show_image():
+    UPLOAD_FOLDER = './static/uploads'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    img_path=None
+    error_msg=None
+    if request.method == 'POST':
+        file = request.files['image']
+        if file.filename == '':
+            error_msg="Please Upload Any Image"
+        else:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            img_path="./static/uploads/{}".format(filename)
+    return render_template("show_image.html",img_path=img_path,error_msg=error_msg)
+
+'''
+    http://127.0.0.1:5000/show_pdf
+'''
+@app.route('/show_pdf',methods = ['GET', 'POST'])
+def show_pdf():
+    UPLOAD_FOLDER = './static/uploads'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    pdf_path=None
+    error_msg=None
+    if request.method == 'POST':
+        file = request.files['pdf']
+        if file.filename == '':
+            error_msg="Please Upload Any PDF"
+        else:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            pdf_path="./static/uploads/{}".format(filename)
+    return render_template("show_pdf.html",pdf_path=pdf_path,error_msg=error_msg)
+    
 '''
     http://127.0.0.1:5000/api/db/vanilla/update
 '''

@@ -20,12 +20,19 @@
 	<body>
 		<div class="container">
 			<div>
-				<h1>Login</h1>
-				<form method="POST" action="/login">
-					Name <input class="form-control" type="text" name="name" />
+				<h1>Upload PDF</h1>
+				<form method="POST" action="/show_pdf" enctype="multipart/form-data">
+					<input class="form-control" type="file" name="pdf" />
 					<br />
 					<input class="btn btn-primary" type="submit" />
-				</form>
+                </form>
+                {% if pdf_path %}
+                <h1>PDF</h1>
+                <embed src={{pdf_path}} width="80%" height="375">
+                {% endif %}
+                {% if error_msg %}
+                {{error_msg}}
+                {% endif %}
 			</div>
 		</div>
 
