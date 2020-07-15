@@ -37,6 +37,7 @@ Flask Learning Roadmap: (Completed)
 
 1. Auto id - done
 2. update route ( form - previous value passing ) - done
+3. creating meme for user uploading images - done
 
 Trello Link:
 https://trello.com/c/Cmv46VpP/2-flask-basics-learning

@@ -17,7 +17,10 @@ from flask import Flask, render_template, request, make_response
 import sqlite3
 from sqlite3 import Error
 import requests
-import json
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
+
+
 
 from werkzeug.utils import secure_filename
 import os
@@ -26,6 +29,45 @@ app = Flask(__name__)
 
 
 database = 'test.db'
+
+
+def generate_meme(image_path, top_text, bottom_text='', font_path='./fonts/impact/impact.ttf', font_size=9):
+	# load image
+	im = Image.open(image_path)
+	draw = ImageDraw.Draw(im)
+	image_width, image_height = im.size
+	
+	# load font
+	font = ImageFont.truetype(font=font_path, size=int(image_height*font_size)//100)
+
+	# convert text to uppercase
+	top_text = top_text.upper()
+	bottom_text = bottom_text.upper()
+
+	# text wrapping
+	char_width, char_height = font.getsize('A')
+	chars_per_line = image_width // char_width
+	top_lines = textwrap.wrap(top_text, width=chars_per_line)
+	bottom_lines = textwrap.wrap(bottom_text, width=chars_per_line)
+
+	# draw top lines
+	y = 10
+	for line in top_lines:
+	    line_width, line_height = font.getsize(line)
+	    x = (image_width - line_width)/2
+	    draw.text((x,y), line, fill='yellow', font=font)
+	    y += line_height
+
+	# draw bottom lines
+	y = image_height - char_height * len(bottom_lines) - 15
+	for line in bottom_lines:
+	    line_width, line_height = font.getsize(line)
+	    x = (image_width - line_width)/2
+	    draw.text((x,y), line, fill='yellow', font=font)
+	    y += line_height
+
+	# save meme
+	im.save('./static/uploads/' + 'meme-' + im.filename.split('/')[-1])
 
 def get_last_record(conn):
     sql = '''SELECT * FROM flask1 ORDER BY id DESC LIMIT 1'''
@@ -384,8 +426,25 @@ def pub_api_req():
     data = result.get('data')
     print(data)
     return render_template("api_data.html", data=data)
-  
+
+
+'''
+    http://127.0.0.1:5000/meme_gen/img_filename
+'''
+
+@app.route('/meme_gen/<img_path>',methods=['GET','POST'])
+def meme_gen(img_path):
+    img_path = './static/uploads/' + img_path
+    if request.method == 'POST':
+        top_text = request.form['top_text']
+        bottom_text = request.form['bottom_text']
+        print("inside post method",img_path)
+        
+        generate_meme(img_path, top_text=top_text, bottom_text=bottom_text)
+        meme_path = '../static/uploads/' + 'meme-' + img_path.split('/')[-1]
+        print("Meme path :::",meme_path)
+        return render_template("display_meme.html",meme_path=meme_path)
+    return render_template("gen_meme.html",img_path=img_path)
+
 if __name__ == "__main__":
     app.run(debug=True)
-
-

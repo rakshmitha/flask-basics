@@ -14,28 +14,15 @@
 			rel="stylesheet"
 			href="{{ url_for('static', filename='main.css') }}"
 		/>
-		<title>upload & display image</title>
+		<title>Generated Meme</title>
 	</head>
 
-	<body>
-		<div class="container">
-			<div>
-				<h1>Upload Image</h1>
-				<form method="POST" action="/show_image" enctype="multipart/form-data">
-					<input class="form-control" type="file" name="image" />
-					<br />
-					<input class="btn btn-primary" type="submit" />
-				</form>
-				{% if img_path %}
-				<h1>Image</h1>
-				<img src="{{img_path}}" alt="img" width="500" height="500" class="img-thumbnail" />
-				<br />
-				<h1>Want to generate a Meme for your Image</h1><span><a href="http://127.0.0.1:5000/meme_gen/{{img_path.split('/')[-1]}}">Click here</a></span>
-				{% endif %} {% if error_msg %} {{error_msg}} {% endif %}
-			</div>
-		</div>
-	
-		<scripts
+	<body style="margin-top:150px;">
+        <div class="text-center">
+            <h2 style="margin-bottom:30px;">Your Classic Meme Generated !!!</h2>
+            <img src="{{meme_path}}" alt="meme-pic" class="rounded mx-auto d-block" width="600" height="500"/>    
+        </div>
+		<script
 			src="https://code.jquery.com/jquery-1.12.4.min.js"
 			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 			crossorigin="anonymous"
